@@ -44,35 +44,35 @@ Respuesta: Factory
 el patrón Factory crea objetos sin especificar la clase exacta del objeto que se creará. Este patrón es ideal para crear dinámicamente varios tipos de elementos de interfaz de usuario según las acciones del usuario
 
 public interface Animal {
-    void makeSound();
-}
-
-public class Dog implements Animal {
-    @Override
-    public void makeSound() {
-        System.out.println("Woof!");
+        void makeSound();
     }
-}
-
-public class Cat implements Animal {
-    @Override
-    public void makeSound() {
-        System.out.println("Meow!");
-    }
-}
-
-public class AnimalFactory {
-    public static Animal createAnimal(String type) {
-        switch (type) {
-            case "dog":
-                return new Dog();
-            case "cat":
-                return new Cat();
-            default:
-                throw new IllegalArgumentException("Unknown animal type");
+    
+    public class Dog implements Animal {
+        @Override
+        public void makeSound() {
+            System.out.println("Woof!");
         }
     }
-}
+    
+    public class Cat implements Animal {
+        @Override
+        public void makeSound() {
+            System.out.println("Meow!");
+        }
+    }
+
+    public class AnimalFactory {
+        public static Animal createAnimal(String type) {
+            switch (type) {
+                case "dog":
+                    return new Dog();
+                case "cat":
+                    return new Cat();
+                default:
+                    throw new IllegalArgumentException("Unknown animal type");
+            }
+        }
+    }
 
 _________________________________________
 
@@ -81,49 +81,46 @@ State Change Notification Across System Components
 Respuesta: Observer
 El patrón Observer permite que un objeto notifique a otros objetos sobre cambios en su estado sin crear una fuerte dependencia entre ellos. Este patrón es ideal para notificar a los componentes del sistema sobre cambios de estado en otras partes del sistema
 
-import java.util.ArrayList;
-import java.util.List;
-
-interface Observer {
-    void update(String state);
-}
-
-class ConcreteObserver implements Observer {
-    private String name;
-
-    public ConcreteObserver(String name) {
-        this.name = name;
+    interface Observer {
+        void update(String state);
     }
 
-    @Override
-    public void update(String state) {
-        System.out.println(name + " received state change: " + state);
-    }
-}
-
-class Subject {
-    private List<Observer> observers = new ArrayList<>();
-    private String state;
-
-    public void addObserver(Observer observer) {
-        observers.add(observer);
-    }
-
-    public void removeObserver(Observer observer) {
-        observers.remove(observer);
-    }
-
-    public void setState(String state) {
-        this.state = state;
-        notifyObservers();
-    }
-
-    private void notifyObservers() {
-        for (Observer observer : observers) {
-            observer.update(state);
+    class ConcreteObserver implements Observer {
+        private String name;
+    
+        public ConcreteObserver(String name) {
+            this.name = name;
+        }
+    
+        @Override
+        public void update(String state) {
+            System.out.println(name + " received state change: " + state);
         }
     }
-}
+
+    class Subject {
+        private List<Observer> observers = new ArrayList<>();
+        private String state;
+    
+        public void addObserver(Observer observer) {
+            observers.add(observer);
+        }
+    
+        public void removeObserver(Observer observer) {
+            observers.remove(observer);
+        }
+    
+        public void setState(String state) {
+            this.state = state;
+            notifyObservers();
+        }
+    
+        private void notifyObservers() {
+            for (Observer observer : observers) {
+                observer.update(state);
+            }
+        }
+    }
 
 
 __________________________________________
